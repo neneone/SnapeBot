@@ -1,8 +1,8 @@
 <?php
 
-namespace neneone\snapeBot;
+namespace neneone\SnapeBot;
 
-interface botAPIScheme
+interface BotAPIScheme
 {
     public function getUpdates($args);
 

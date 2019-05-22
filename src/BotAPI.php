@@ -2,9 +2,9 @@
 
 
 
-namespace neneone\snapeBot;
+namespace neneone\SnapeBot;
 
-class botAPI implements botAPIScheme
+class BotAPI implements BotAPIScheme
 {
     public function __construct($token)
     {

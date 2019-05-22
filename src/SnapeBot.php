@@ -1,8 +1,8 @@
 <?php
 
-namespace neneone\snapeBot;
+namespace neneone\SnapeBot;
 
-class snapeBot
+class SnapeBot
 {
     public static $settingsScheme = [
     'getInformations' => [
