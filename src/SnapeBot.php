@@ -5,26 +5,29 @@ namespace neneone\SnapeBot;
 class SnapeBot
 {
     public static $settingsScheme = [
-    'getInformations' => [
+    'getBotInformations' => [
       'type' => 'boolean',
       'default' => false,
       'required' => false
     ]
   ];
 
-    public function __construct($botToken, $snapeSettings)
+    public function __construct($botToken, $snapeSettings = [])
     {
         $this->snapeSettings = self::buildSettings($snapeSettings);
+        $this->botToken = $botToken;
 
         if ($this->snapeSettings['getBotInformations']) {
             $getMe = (new \neneone\snapeBot\botAPI($botToken))->getMe();
-            if (isset($getMe['username'])) {
-                $this->botInformations = $getMe;
+            if (isset($getMe['result']['username'])) {
+                $this->botInformations = $getMe['result'];
                 $this->botInformations['token'] = $botToken;
             } else {
                 throw new Exception('Invalid token.');
             }
         }
+
+        $this->BotAPI = new BotAPI($this->botToken);
     }
 
     public static function buildSettings($settings)
