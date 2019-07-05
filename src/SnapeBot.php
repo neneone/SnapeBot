@@ -18,7 +18,7 @@ class SnapeBot
         $this->botToken = $botToken;
 
         if ($this->snapeSettings['getBotInformations']) {
-            $getMe = (new \neneone\snapeBot\botAPI($botToken))->getMe();
+            $getMe = (new \neneone\snapeBot\BotAPI($botToken))->getMe();
             if (isset($getMe['result']['username'])) {
                 $this->botInformations = $getMe['result'];
                 $this->botInformations['token'] = $botToken;
