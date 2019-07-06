@@ -1,7 +1,5 @@
 <?php
 
-#TODO mettere buildSettings con il re-build degli array
-
 namespace neneone\SnapeBot;
 
 class SnapeBot
@@ -10,6 +8,16 @@ class SnapeBot
     'getBotInformations' => [
       'type' => 'boolean',
       'default' => false,
+      'required' => false
+    ],
+    'botUsername' => [
+      'type' => 'string',
+      'default' => false,
+      'required' => false
+    ],
+    'firstRun' => [
+      'type' => 'boolean',
+      'default' => true,
       'required' => false
     ],
     'database' => [
@@ -21,7 +29,7 @@ class SnapeBot
           'default' => 'localhost',
           'required' => false
         ],
-        'db_name' => [
+        'dbName' => [
           'type' => 'string',
           'required' => true
         ],
@@ -33,6 +41,11 @@ class SnapeBot
           'type' => 'string',
           'default' => '',
           'required' => false
+        ],
+        'tableName' => [
+          'type' => 'string',
+          'default' => 'SnapeBot',
+          'required' => false
         ]
       ]
     ]
@@ -43,18 +56,23 @@ class SnapeBot
         $this->snapeSettings = self::buildSettings($snapeSettings);
         $this->botToken = $botToken;
 
-        if ($this->snapeSettings['getBotInformations']) {
+        if ($this->snapeSettings['getBotInformations'] || !isset($this->snapeSettings['botUsername'])) {
             $getMe = (new \neneone\snapeBot\BotAPI($botToken))->getMe();
             if (isset($getMe['result']['username'])) {
                 $this->botInformations = $getMe['result'];
-                $this->botInformations['token'] = $botToken;
+                $this->snapeSettings['botUsername'] = $this->botInformations['username'];
             } else {
                 throw new Exception('Invalid token.');
             }
         }
 
         $this->BotAPI = new BotAPI($this->botToken);
-        $this->db = (new DatabaseManager($this->snapeSettings['database']['host'], $this->snapeSettings['database']['db_name'], $this->snapeSettings['database']['username'], $this->snapeSettings['database']['password']))->db;
+        $this->db = (new DatabaseManager($this->snapeSettings['database']['host'], $this->snapeSettings['database']['dbName'], $this->snapeSettings['database']['username'], $this->snapeSettings['database']['password']))->db;
+
+        file_put_contents('settings.json', json_encode($this->snapeSettings, JSON_PRETTY_PRINT));
+        if($this->snapeSettings['firstRun'] == true) {
+          $this->firstRun();
+        }
     }
 
     public static function buildSettings($settings, $settingsScheme = false)
@@ -66,7 +84,7 @@ class SnapeBot
                 $missingSetting = true;
             } elseif (!isset($settings[$setting])) {
               if(isset($structure['default'])) {
-                $builtSettings[$settings] = $structure['default'];
+                $builtSettings[$setting] = $structure['default'];
               } else {
                 throw new \neneone\SnapeBot\Exception('Missing setting "' . $setting . '" that has no default value.');
               }
@@ -78,7 +96,7 @@ class SnapeBot
                 $builtSettings[$setting] = $settings[$setting];
             } else {
                 if(isset($structure['default'])) {
-                  $builtSettings[$settings] = $structure['default'];
+                  $builtSettings[$setting] = $structure['default'];
                 } else {
                   throw new \neneone\SnapeBot\Exception('Missing setting "' . $setting . '" that has no default value.');
                 }
@@ -90,7 +108,7 @@ class SnapeBot
                 $builtSettings[$setting] = $settings[$setting];
             } else {
               if(isset($structure['default'])) {
-                $builtSettings[$settings] = $structure['default'];
+                $builtSettings[$setting] = $structure['default'];
               } else {
                 throw new \neneone\SnapeBot\Exception('Missing setting "' . $setting . '" that has no default value.');
               }
@@ -104,7 +122,7 @@ class SnapeBot
                 $builtSettings[$setting] = $settings[$setting];
             } else {
               if(isset($structure['default'])) {
-                $builtSettings[$settings] = $structure['default'];
+                $builtSettings[$setting] = $structure['default'];
               } else {
                 throw new \neneone\SnapeBot\Exception('Missing setting "' . $setting . '" that has no default value.');
               }
@@ -115,7 +133,7 @@ class SnapeBot
                 $builtSettings[$setting] = self::buildSettings($settings[$setting], $structure['structure']);
             } else {
               if(isset($structure['default'])) {
-                $builtSettings[$settings] = $structure['default'];
+                $builtSettings[$setting] = $structure['default'];
               } else {
                 throw new \neneone\SnapeBot\Exception('Missing setting "' . $setting . '" that has no default value.');
               }
@@ -127,7 +145,7 @@ class SnapeBot
                 $builtSettings[$setting] = $settings[$setting];
             } else {
               if(isset($structure['default'])) {
-                $builtSettings[$settings] = $structure['default'];
+                $builtSettings[$setting] = $structure['default'];
               } else {
                 throw new \neneone\SnapeBot\Exception('Missing setting "' . $setting . '" that has no default value.');
               }
@@ -138,7 +156,7 @@ class SnapeBot
                 $builtSettings[$setting] = $settings[$setting];
             } else {
               if(isset($structure['default'])) {
-                $builtSettings[$settings] = $structure['default'];
+                $builtSettings[$setting] = $structure['default'];
               } else {
                 throw new \neneone\SnapeBot\Exception('Missing setting "' . $setting . '" that has no default value.');
               }
@@ -154,5 +172,16 @@ class SnapeBot
             die;
         }
         return $builtSettings;
+    }
+
+    private function firstRun() {
+      $createTable = $this->db->query('CREATE TABLE IF NOT EXISTS ' . $this->snapeSettings['database']['tableName'] . ' (
+          ID int NOT NULL AUTO_INCREMENT,
+          userID bigint(255),
+          name varchar(255),
+          username varchar(32),
+          page varchar(255),
+          PRIMARY KEY (ID)
+        )');
     }
 }
