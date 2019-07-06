@@ -65,7 +65,11 @@ class SnapeBot
                 throw new Exception('Missing required setting: ' . $setting . '.');
                 $missingSetting = true;
             } elseif (!isset($settings[$setting])) {
-                $builtSettings[$setting] = $structure['default'];
+              if(isset($structure['default'])) {
+                $builtSettings[$settings] = $structure['default'];
+              } else {
+                throw new \neneone\SnapeBot\Exception('Missing setting "' . $setting . '" that has no default value.');
+              }
             } else {
                 switch ($structure['type']) {
           case 'boolean':
@@ -108,7 +112,7 @@ class SnapeBot
             break;
           case 'array':
             if (is_array($settings[$setting])) {
-                $builtSettings[$setting] = self::buildSettings($setting, $setting['structure']);
+                $builtSettings[$setting] = self::buildSettings($settings[$setting], $structure['structure']);
             } else {
               if(isset($structure['default'])) {
                 $builtSettings[$settings] = $structure['default'];
