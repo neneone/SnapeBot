@@ -7,7 +7,7 @@ class DatabaseManager {
     try {
       $this->db = new \PDO('mysql:host=' . $host . ';dbname=' . $databaseName, $username, $password);
     } catch (\PDOException $e) {
-      file_put_contents('pdo.log', $e->getMessage . PHP_EOL, FILE_APPEND);
+      file_put_contents('pdo.log', $e->getMessage() . PHP_EOL, FILE_APPEND);
       die($e->getMessage());
     }
   }
