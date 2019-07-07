@@ -22,6 +22,11 @@ class SnapeBot
       'default' => true,
       'required' => false
     ],
+    'autoSaveUsers' => [
+      'type' => 'boolean',
+      'default' => true,
+      'required' => false
+    ],
     'database' => [
       'type' => 'array',
       'required' => true,
@@ -69,6 +74,7 @@ class SnapeBot
         }
 
         $this->BotAPI = new BotAPI($this->botToken);
+        $this->API = new API($this->botToken);
         $this->connectToDatabase($this->snapeSettings['database']['host'], $this->snapeSettings['database']['dbName'], $this->snapeSettings['database']['username'], $this->snapeSettings['database']['password']);
 
         file_put_contents('settings.json', json_encode($this->snapeSettings, JSON_PRETTY_PRINT));
@@ -78,6 +84,8 @@ class SnapeBot
         foreach(get_object_vars(new VariablesMaker($update)) as $var => $value) {
           $this->$var = $value;
         }
+
+        if(isset($this->userID) && $this->userID) $this->checkUserInDatabase($this->userID, $this->fullName, (isset($this->username) ? $this->username : ''));
     }
 
     public static function buildSettings($settings, $settingsScheme = false)
@@ -186,6 +194,7 @@ class SnapeBot
           name varchar(255),
           username varchar(32),
           page varchar(255),
+          lastUpdate date,
           PRIMARY KEY (ID)
         )');
     }
