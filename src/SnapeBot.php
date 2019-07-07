@@ -4,6 +4,8 @@ namespace neneone\SnapeBot;
 
 class SnapeBot
 {
+    use \neneone\SnapeBot\DatabaseManager;
+
     public static $settingsScheme = [
     'getBotInformations' => [
       'type' => 'boolean',
@@ -51,7 +53,7 @@ class SnapeBot
     ]
   ];
 
-    public function __construct($botToken, $snapeSettings = [])
+    public function __construct($botToken, $update, $snapeSettings = [])
     {
         $this->snapeSettings = self::buildSettings($snapeSettings);
         $this->botToken = $botToken;
@@ -67,11 +69,14 @@ class SnapeBot
         }
 
         $this->BotAPI = new BotAPI($this->botToken);
-        $this->db = (new DatabaseManager($this->snapeSettings['database']['host'], $this->snapeSettings['database']['dbName'], $this->snapeSettings['database']['username'], $this->snapeSettings['database']['password']))->db;
+        $this->connectToDatabase($this->snapeSettings['database']['host'], $this->snapeSettings['database']['dbName'], $this->snapeSettings['database']['username'], $this->snapeSettings['database']['password']);
 
         file_put_contents('settings.json', json_encode($this->snapeSettings, JSON_PRETTY_PRINT));
         if($this->snapeSettings['firstRun'] == true) {
           $this->firstRun();
+        }
+        foreach(get_object_vars(new VariablesMaker($update)) as $var => $value) {
+          $this->$var = $value;
         }
     }
 

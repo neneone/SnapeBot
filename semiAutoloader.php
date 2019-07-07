@@ -10,7 +10,7 @@ function autoloadDirectory($directory)
         if (!$item->isDot()) {
             if (!$item->isFile()) {
                 autoloadDirectory($item->getPathname());
-            } elseif ($item->isFile()) {
+            } elseif ($item->isFile() && $item->getPathname() != 'src/SnapeBot.php') {
                 require_once $item->getPathname();
             }
         }
@@ -20,3 +20,4 @@ function autoloadDirectory($directory)
 foreach ($autoloadDirectories as $directory) {
     autoloadDirectory($directory);
 }
+require_once 'src/SnapeBot.php';
