@@ -11,13 +11,16 @@ trait DatabaseManager {
     }
   }
   public function checkUserInDatabase($userID, $name, $username = '') {
-    $q = $this->db->prepare('SELECT ID, lastUpdate FROM ' . $this->snapeSettings['database']['tableName'] . ' WHERE userID = :userID');
+    $q = $this->db->prepare('SELECT * FROM ' . $this->snapeSettings['database']['tableName'] . ' WHERE userID = :userID');
     $q->bindParam(':userID', $userID);
     $q->execute();
     if($q->rowCount() == 0) {
       $this->addUserToDatabase($userID, $name, $username);
-    } elseif($q->fetchAll(\PDO::FETCH_ASSOC)[0]['lastUpdate'] < date('Y-m-d')) {
-      $this->updateUserInDatabase($userID, $name, $username);
+    } else {
+      $this->u = $q->fetchAll(\PDO::FETCH_ASSOC)[0];
+      if($this->u['lastUpdate'] < date('Y-m-d')) {
+        $this->updateUserInDatabase($userID, $name, $username);
+      }
     }
   }
   public function addUserToDatabase($userID, $name, $username) {
