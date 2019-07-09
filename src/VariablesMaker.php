@@ -2,43 +2,42 @@
 
 namespace neneone\SnapeBot;
 
-class VariablesMaker {
-  public function __construct($update) {
-    $this->update = $update;
-    if(isset($update['message'])) {
+trait VariablesMaker {
+  public function makeVariables() {
+    if(isset($this->update['message'])) {
       $this->isMessage = true;
       $this->isEdited = false;
       $this->isPost = false;
-      $this->setMainMessageData($update['message']);
-    } elseif(isset($update['edited_message'])) {
+      $this->setMainMessageData($this->update['message']);
+    } elseif(isset($this->update['edited_message'])) {
       $this->isMessage = true;
       $this->isEdited = true;
       $this->isPost = false;
-      $this->setMainMessageData($update['edited_message']);
-    } elseif(isset($update['channel_post'])) {
+      $this->setMainMessageData($this->update['edited_message']);
+    } elseif(isset($this->update['channel_post'])) {
       $this->isMessage = true;
       $this->isEdited = false;
       $this->isPost = true;
-      $this->setMainMessageData($update['channel_post']);
-    } elseif(isset($update['edited_channel_post'])) {
+      $this->setMainMessageData($this->update['channel_post']);
+    } elseif(isset($this->update['edited_channel_post'])) {
       $this->isMessage = true;
       $this->isEdited = true;
       $this->isPost = true;
-      $this->setMainMessageData($update['edited_channel_post']);
-    } elseif(isset($update['inline_query'])) {
+      $this->setMainMessageData($this->update['edited_channel_post']);
+    } elseif(isset($this->update['inline_query'])) {
       $this->isInlineQuery = true;
-      $this->setMainInlineQueryData($update['inline_query']);
-    } elseif(isset($update['chosen_inline_result'])) {
-      $this->setMainChosenInlineResultData($update['chosen_inline_result']);
-    } elseif(isset($update['callback_query'])) {
+      $this->setMainInlineQueryData($this->update['inline_query']);
+    } elseif(isset($this->update['chosen_inline_result'])) {
+      $this->setMainChosenInlineResultData($this->update['chosen_inline_result']);
+    } elseif(isset($this->update['callback_query'])) {
       $this->isCallbackQuery = true;
-      $this->setMainCallbackQueryData($update['callback_query']);
-    } elseif(isset($update['shipping_query'])) {
+      $this->setMainCallbackQueryData($this->update['callback_query']);
+    } elseif(isset($this->update['shipping_query'])) {
       $this->isShippingQuery = true;
-      $this->setMainShippingQueryData($update['shipping_query']);
-    } elseif(isset($update['pre_checkout_query'])) {
+      $this->setMainShippingQueryData($this->update['shipping_query']);
+    } elseif(isset($this->update['pre_checkout_query'])) {
       $this->isPreCheckoutQuery = true;
-      $this->setMainPreCheckoutQueryData($update['pre_checkout_query']);
+      $this->setMainPreCheckoutQueryData($this->update['pre_checkout_query']);
     }
   }
   private function setMainMessageData($message) {
@@ -188,7 +187,13 @@ class VariablesMaker {
     $r['from'] = $this->parseUser($callbackQuery['from']);
     if(isset($callbackQuery['message'])) $r['cbMsg'] = $this->parseMessage($callbackQuery['message']);
     if(isset($callbackQuery['inline_message_id'])) $r['inlineMsgID'] = $callbackQuery['inline_message_id'];
-    if(isset($callbackQuery['data'])) $r['data'] = $callbackQuery['data'];
+    if(isset($callbackQuery['data'])) {
+      if($this->snapeSettings['cbDataEncryption'] == false) {
+        $r['data'] = $callbackQuery['data'];
+      } else {
+        $r['data'] = $this->specialDecrypt($callbackQuery['data']);
+      }
+    }
     if(isset($callbackQuery['game_short_name'])) $r['gameName'] = $callbackQuery['game_short_name'];
     return $r;
   }

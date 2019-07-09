@@ -30,6 +30,9 @@ class API {
         $keyboard = [
           'inline_keyboard' => $rm
         ];
+        if($this->SnapeBot->snapeSettings['cbDataEncryption'] == true) {
+          $keyboard = $this->encryptKeyboard($keyboard);
+        }
         break;
       case 'hide':
         $keyboard = [
@@ -75,6 +78,19 @@ class API {
       }
       return $this->BotAPI('editMessageText', $args);
     }
+  }
+
+  public function encryptKeyboard($keyboard) {
+    foreach($keyboard['inline_keyboard'] as $pos => $line) {
+      foreach($line as $pp => $kk) {
+        foreach($kk as $type => $data) {
+          if($type == 'callback_data') {
+            $keyboard['inline_keyboard'][$pos][$pp][$type] = $this->SnapeBot->specialEncrypt($data);
+          }
+        }
+      }
+    }
+    return $keyboard;
   }
 }
 

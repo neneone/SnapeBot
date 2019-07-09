@@ -5,6 +5,7 @@ namespace neneone\SnapeBot;
 class SnapeBot
 {
     use \neneone\SnapeBot\DatabaseManager;
+    use \neneone\SnapeBot\VariablesMaker;
 
     public static $settingsScheme = [
     'getBotInformations' => [
@@ -26,6 +27,31 @@ class SnapeBot
       'type' => 'boolean',
       'default' => true,
       'required' => false
+    ],
+    'cbDataEncryption' => [
+      'type' => 'boolean',
+      'default' => false,
+      'required' => false
+    ],
+    'encryptionData' => [
+      'type' => 'array',
+      'default' => [
+        'key' => 'SnapeBotKey2019',
+        'iv' => 'SnapeBotIV2019'
+      ],
+      'required' => false,
+      'structure' => [
+        'key' => [
+          'type' => 'string',
+          'default' => 'SnapeBotKey2019',
+          'required' => false
+        ],
+        'iv' => [
+          'type' => 'string',
+          'default' => 'SnapeBotAwesomeIV2019',
+          'required' => false
+        ]
+      ]
     ],
     'database' => [
       'type' => 'array',
@@ -82,9 +108,8 @@ class SnapeBot
         if($this->snapeSettings['firstRun'] == true) {
           $this->firstRun();
         }
-        foreach(get_object_vars(new VariablesMaker($update)) as $var => $value) {
-          $this->$var = $value;
-        }
+        $this->update = $update;
+        $this->makeVariables();
         if(isset($this->userID) && $this->userID) $this->checkUserInDatabase($this->userID, $this->fullName, (isset($this->username) ? $this->username : ''));
     }
 
@@ -197,5 +222,15 @@ class SnapeBot
           lastUpdate date,
           PRIMARY KEY (ID)
         )');
+    }
+    public function specialEncrypt($string) {
+      $key = hash('sha256', $this->snapeSettings['encryptionData']['key']);
+      $iv = substr(hash('sha256', $this->snapeSettings['encryptionData']['iv']), 0, 16);
+      return base64_encode(openssl_encrypt($string, 'AES-256-CBC', $key, 0, $iv));
+    }
+    public function specialDecrypt($string) {
+      $key = hash('sha256', $this->snapeSettings['encryptionData']['key']);
+      $iv = substr(hash('sha256', $this->snapeSettings['encryptionData']['iv']), 0, 16);
+      return openssl_decrypt(base64_decode($string), 'AES-256-CBC', $key, 0, $iv);
     }
 }
