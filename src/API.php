@@ -58,7 +58,7 @@ class API
         break;
       case 'hide':
         $keyboard = [
-          'hide_keyboard' => true,
+          'remove_keyboard' => true,
         ];
 
         break;
