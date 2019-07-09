@@ -89,10 +89,10 @@ class API
       'show_alert' => $click,
     ];
         $this->BotAPI('answerCallbackQuery', $args);
-        if (isset($this->SnapeBot->cbMsgID) && '' != $text) {
+        if (isset($this->SnapeBot->cbMsg['msgID']) && '' != $text) {
             $args = [
         'chat_id' => $this->SnapeBot->chatID,
-        'message_id' => $this->SnapeBot->cbMsgID,
+        'message_id' => $this->SnapeBot->cbMsg['msgID'],
         'text' => $text,
         'parse_mode' => 'HTML',
       ];
