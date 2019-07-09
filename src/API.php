@@ -3,15 +3,16 @@
 namespace neneone\SnapeBot;
 
 class API {
-  public function __construct($botToken) {
+  public function __construct($botToken, $SnapeBot) {
     $this->botToken = $botToken;
+    $this->SnapeBot = $SnapeBot;
   }
 
   public function BotAPI($method, $args = [])
   {
       $ch = curl_init();
       $ch_options = [
-    CURLOPT_URL            => 'https://api.telegram.org/bot'.$this->token.'/'.$method,
+    CURLOPT_URL            => 'https://api.telegram.org/bot'.$this->botToken.'/'.$method,
     CURLOPT_POST           => true,
     CURLOPT_POSTFIELDS     => http_build_query($args),
     CURLOPT_RETURNTRANSFER => true,
@@ -23,76 +24,57 @@ class API {
       return json_decode($result, true);
   }
 
-  public function sendMessage($chatID, $text, $rmf = false, $inline = 'pred', $dis = false) {
-      if ($inline == 'pred') {
-          $inline = true;
-      }
-      $dal = false;
-      if (!$inline) {
-          if ($rmf == 'hide') {
-              $rm = array(
-                  'hide_keyboard' => true
-              );
-          } else {
-              $rm = array(
-                  'keyboard' => $rmf,
-                  'resize_keyboard' => true
-              );
-          }
-      } else {
-          $rm = array(
-              'inline_keyboard' => $rmf
-          );
-      }
-      $rm   = json_encode($rm);
-      $args = array(
-          'chat_id' => $chatID,
-          'text' => $text,
-          'disable_notification' => $dis,
-          'parse_mode' => 'HTML'
-      );
-      if ($dal) {
-          $args['disable_web_page_preview'] = $dal;
-      }
-      if ($replyto) {
-          $args['reply_to_message_id'] = $replyto;
-      }
-      if ($rmf) {
-          $args['reply_markup'] = $rm;
-      }
-        return $this->BotAPI(__FUNCTION__, $args);
+  public function sendMessage($chatID, $text, $rm = false, $keyboardType = 'inline', $disableNotification = false) {
+    switch ($keyboardType) {
+      case 'inline':
+        $keyboard = [
+          'inline_keyboard' => $rm
+        ];
+        break;
+      case 'hide':
+        $keyboard = [
+          'hide_keyboard' => true
+        ];
+        break;
+      default:
+        $keyboard = [
+          'keyboard' => $rm,
+          'resize_keyboard' => true
+        ];
+    }
+    $args = [
+      'chat_id' => $chatID,
+      'text' => $text,
+      'disable_notification' => $disableNotification,
+      'parse_mode' => 'HTML'
+    ];
+    if($rm) $args['reply_markup'] = json_encode($keyboard);
+
+    return $this->BotAPI(__FUNCTION__, $args);
   }
 
-  function keyboard($text, $ntext = false, $nmenu = false, $alert = false) {
-      global $cbid;
-      global $cbmid;
-      global $chatID;
-      global $update;
-      $args = array(
-          'callback_query_id' => $cbid,
-          'text' => $text,
-          'show_alert' => $alert
-      );
-      $r    = $this->BotAPI('answerCallbackQuery', $args);
-      if ($cbmid) {
-          if ($nmenu) {
-              $rm = array(
-                  'inline_keyboard' => $nmenu
-              );
-              $rm = json_encode($rm);
-          }
-          $args = array(
-              'chat_id' => $chatID,
-              'message_id' => $cbmid,
-              'text' => $ntext,
-              'parse_mode' => 'HTML'
-          );
-          if ($nmenu) {
-              $args['reply_markup'] = $rm;
-          }
-          $r = $this->BotAPI('editMessageText', $args);
-          return $r;
+  public function keyboard($alert = '', $text = false, $menu = false, $click = false) {
+    $args = [
+      'callback_query_id' => $this->SnapeBot->cbID,
+      'text' => $alert,
+      'show_alert' => $click
+    ];
+    $this->BotAPI('answerCallbackQuery', $args);
+    if(isset($this->SnapeBot->cbMsgID) && $text != '') {
+      $args = [
+        'chat_id' => $this->SnapeBot->chatID,
+        'message_id' => $this->SnapeBot->cbMsgID,
+        'text' => $text,
+        'parse_mode' => 'HTML'
+      ];
+      if($menu) {
+        $rm = [
+          'inline_keyboard' => $menu
+        ];
+        $args['reply_markup'] = json_encode($rm);
       }
+      return $this->BotAPI('editMessageText', $args);
+    }
   }
 }
 

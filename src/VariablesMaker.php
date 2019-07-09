@@ -186,7 +186,7 @@ class VariablesMaker {
     $r['cbID'] = $callbackQuery['id'];
     $r['chatInstance'] = $callbackQuery['chat_instance'];
     $r['from'] = $this->parseUser($callbackQuery['from']);
-    if(isset($callbackQuery['message'])) $r['cbMsg'] = parseMessage($callbackQuery['message']);
+    if(isset($callbackQuery['message'])) $r['cbMsg'] = $this->parseMessage($callbackQuery['message']);
     if(isset($callbackQuery['inline_message_id'])) $r['inlineMsgID'] = $callbackQuery['inline_message_id'];
     if(isset($callbackQuery['data'])) $r['data'] = $callbackQuery['data'];
     if(isset($callbackQuery['game_short_name'])) $r['gameName'] = $callbackQuery['game_short_name'];

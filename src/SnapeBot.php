@@ -62,6 +62,7 @@ class SnapeBot
     {
         $this->snapeSettings = self::buildSettings($snapeSettings);
         $this->botToken = $botToken;
+        $this->tName = $this->snapeSettings['database']['tableName'];
 
         if ($this->snapeSettings['getBotInformations'] || !isset($this->snapeSettings['botUsername'])) {
             $getMe = (new \neneone\snapeBot\BotAPI($botToken))->getMe();
@@ -74,7 +75,7 @@ class SnapeBot
         }
 
         $this->BotAPI = new BotAPI($this->botToken);
-        $this->API = new API($this->botToken);
+        $this->API = new API($this->botToken, $this);
         $this->connectToDatabase($this->snapeSettings['database']['host'], $this->snapeSettings['database']['dbName'], $this->snapeSettings['database']['username'], $this->snapeSettings['database']['password']);
 
         file_put_contents('settings.json', json_encode($this->snapeSettings, JSON_PRETTY_PRINT));
@@ -84,7 +85,6 @@ class SnapeBot
         foreach(get_object_vars(new VariablesMaker($update)) as $var => $value) {
           $this->$var = $value;
         }
-
         if(isset($this->userID) && $this->userID) $this->checkUserInDatabase($this->userID, $this->fullName, (isset($this->username) ? $this->username : ''));
     }
 
@@ -188,7 +188,7 @@ class SnapeBot
     }
 
     private function firstRun() {
-      $createTable = $this->db->query('CREATE TABLE IF NOT EXISTS ' . $this->snapeSettings['database']['tableName'] . ' (
+      $createTable = $this->db->query('CREATE TABLE IF NOT EXISTS ' . $this->tName . ' (
           ID int NOT NULL AUTO_INCREMENT,
           userID bigint(255),
           name varchar(255),
