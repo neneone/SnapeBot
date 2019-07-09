@@ -1,6 +1,22 @@
 <?php
 
-
+/*
+ * SnapeBot, PHP Framework for Telegram Bots
+ * Copyright (C) 2019 Enea Dolcini
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 
 namespace neneone\SnapeBot;
 
@@ -15,9 +31,9 @@ class BotAPI implements BotAPIScheme
     {
         $ch = curl_init();
         $ch_options = [
-      CURLOPT_URL            => 'https://api.telegram.org/bot'.$this->token.'/'.$method,
-      CURLOPT_POST           => true,
-      CURLOPT_POSTFIELDS     => http_build_query($args),
+      CURLOPT_URL => 'https://api.telegram.org/bot'.$this->token.'/'.$method,
+      CURLOPT_POST => true,
+      CURLOPT_POSTFIELDS => http_build_query($args),
       CURLOPT_RETURNTRANSFER => true,
     ];
         curl_setopt_array($ch, $ch_options);
