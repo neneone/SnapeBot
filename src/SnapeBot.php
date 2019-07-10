@@ -102,17 +102,17 @@ class SnapeBot
     ],
   ];
 
-    public function __construct($botToken, $update, $snapeSettings = [])
+    public function __construct($botToken, $update, $settings = [])
     {
-        $this->snapeSettings = self::buildSettings($snapeSettings);
+        $this->settings = self::buildSettings($settings);
         $this->botToken = $botToken;
-        $this->tName = $this->snapeSettings['database']['tableName'];
+        $this->tName = $this->settings['database']['tableName'];
 
-        if ($this->snapeSettings['getBotInformations'] || !isset($this->snapeSettings['botUsername'])) {
+        if ($this->settings['getBotInformations'] || !isset($this->settings['botUsername'])) {
             $getMe = (new \neneone\snapeBot\BotAPI($botToken))->getMe();
             if (isset($getMe['result']['username'])) {
                 $this->botInformations = $getMe['result'];
-                $this->snapeSettings['botUsername'] = $this->botInformations['username'];
+                $this->settings['botUsername'] = $this->botInformations['username'];
             } else {
                 throw new Exception('Invalid token.');
             }
@@ -120,10 +120,10 @@ class SnapeBot
 
         $this->BotAPI = new BotAPI($this->botToken);
         $this->API = new API($this->botToken, $this);
-        $this->connectToDatabase($this->snapeSettings['database']['host'], $this->snapeSettings['database']['dbName'], $this->snapeSettings['database']['username'], $this->snapeSettings['database']['password']);
+        $this->connectToDatabase($this->settings['database']['host'], $this->settings['database']['dbName'], $this->settings['database']['username'], $this->settings['database']['password']);
 
-        file_put_contents('settings.json', json_encode($this->snapeSettings, JSON_PRETTY_PRINT));
-        if (true == $this->snapeSettings['firstRun']) {
+        file_put_contents('settings.json', json_encode($this->settings, JSON_PRETTY_PRINT));
+        if (true == $this->settings['firstRun']) {
             $this->firstRun();
         }
         $this->update = $update;
@@ -257,16 +257,16 @@ class SnapeBot
 
     public function specialEncrypt($string)
     {
-        $key = hash('sha256', $this->snapeSettings['encryptionData']['key']);
-        $iv = substr(hash('sha256', $this->snapeSettings['encryptionData']['iv']), 0, 16);
+        $key = hash('sha256', $this->settings['encryptionData']['key']);
+        $iv = substr(hash('sha256', $this->settings['encryptionData']['iv']), 0, 16);
 
         return base64_encode(openssl_encrypt($string, 'AES-256-CBC', $key, 0, $iv));
     }
 
     public function specialDecrypt($string)
     {
-        $key = hash('sha256', $this->snapeSettings['encryptionData']['key']);
-        $iv = substr(hash('sha256', $this->snapeSettings['encryptionData']['iv']), 0, 16);
+        $key = hash('sha256', $this->settings['encryptionData']['key']);
+        $iv = substr(hash('sha256', $this->settings['encryptionData']['iv']), 0, 16);
 
         return openssl_decrypt(base64_decode($string), 'AES-256-CBC', $key, 0, $iv);
     }

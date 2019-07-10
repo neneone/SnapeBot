@@ -326,7 +326,7 @@ trait VariablesMaker
             $r['inlineMsgID'] = $callbackQuery['inline_message_id'];
         }
         if (isset($callbackQuery['data'])) {
-            if (false == $this->snapeSettings['cbDataEncryption']) {
+            if (false == $this->settings['cbDataEncryption']) {
                 $r['data'] = $callbackQuery['data'];
             } else {
                 $r['data'] = $this->specialDecrypt($callbackQuery['data']);

@@ -51,7 +51,7 @@ class API
         $keyboard = [
           'inline_keyboard' => $rm,
         ];
-        if (true == $this->SnapeBot->snapeSettings['cbDataEncryption']) {
+        if (true == $this->SnapeBot->settings['cbDataEncryption']) {
             $keyboard = $this->encryptKeyboard($keyboard);
         }
 
