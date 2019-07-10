@@ -55,7 +55,7 @@ class SnapeBot
       'type' => 'array',
       'default' => [
         'key' => 'SnapeBotKey2019',
-        'iv' => 'SnapeBotIV2019',
+        'iv' => 'SnapeBotAwesomeIV2019',
       ],
       'required' => false,
       'structure' => [
