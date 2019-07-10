@@ -25,10 +25,11 @@ trait DatabaseManager
     public function connectToDatabase($host, $databaseName, $username, $password)
     {
         try {
-            $this->db = new \PDO('mysql:host='.$host.';dbname='.$databaseName, $username, $password);
+            $db = new \PDO('mysql:host='.$host.';dbname='.$databaseName, $username, $password);
         } catch (\PDOException $e) {
             die($e->getMessage());
         }
+        return $db;
     }
 
     public function checkUserInDatabase($userID, $name, $username = '')
@@ -36,14 +37,16 @@ trait DatabaseManager
         $q = $this->db->prepare('SELECT * FROM '.$this->settings['database']['tableName'].' WHERE userID = :userID');
         $q->bindParam(':userID', $userID);
         $q->execute();
-        if (0 == $q->rowCount()) {
+        if ($q->rowCount() == 0) {
             $this->addUserToDatabase($userID, $name, $username);
+            $u = $this->checkUserInDatabase($userID, $name, $username);
         } else {
-            $this->u = $q->fetchAll(\PDO::FETCH_ASSOC)[0];
-            if ($this->u['lastUpdate'] < date('Y-m-d')) {
+            $u = $q->fetchAll(\PDO::FETCH_ASSOC)[0];
+            if ($u['lastUpdate'] < date('Y-m-d')) {
                 $this->updateUserInDatabase($userID, $name, $username);
             }
         }
+        return $u;
     }
 
     public function addUserToDatabase($userID, $name, $username)

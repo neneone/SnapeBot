@@ -120,7 +120,7 @@ class SnapeBot
 
         $this->BotAPI = new BotAPI($this->botToken);
         $this->API = new API($this->botToken, $this);
-        $this->connectToDatabase($this->settings['database']['host'], $this->settings['database']['dbName'], $this->settings['database']['username'], $this->settings['database']['password']);
+        $this->db = $this->connectToDatabase($this->settings['database']['host'], $this->settings['database']['dbName'], $this->settings['database']['username'], $this->settings['database']['password']);
 
         file_put_contents('settings.json', json_encode($this->settings, JSON_PRETTY_PRINT));
         if (true == $this->settings['firstRun']) {
@@ -129,7 +129,7 @@ class SnapeBot
         $this->update = $update;
         $this->makeVariables();
         if (isset($this->userID) && $this->userID) {
-            $this->checkUserInDatabase($this->userID, $this->fullName, (isset($this->username) ? $this->username : ''));
+            $this->u = $this->checkUserInDatabase($this->userID, $this->fullName, (isset($this->username) ? $this->username : ''));
         }
     }
 
