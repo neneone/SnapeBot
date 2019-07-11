@@ -29,7 +29,7 @@ $settings = [
     'tableName' => 'MyAwesomeBot',
   ],
   'botUsername' => 'myAwesomeBot',
-  'firstRun' => false,
+  'firstRun' => true,
 ];
 
 $update = json_decode(file_get_contents('php://input'), true);
