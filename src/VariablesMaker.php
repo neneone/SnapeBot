@@ -238,7 +238,7 @@ trait VariablesMaker
             $r['leftChatMember'] = $message['left_chat_member'];
         }
         if (isset($message['new_chat_title'])) {
-            $r['newChatTitle'] = $message['new_chat_title'];
+            $r['newChatTitle'] = htmlspecialchars($message['new_chat_title']);
         }
         if (isset($message['new_chat_photo'])) {
             $r['newChatPhoto'] = $message['new_chat_photo'];
@@ -371,7 +371,7 @@ trait VariablesMaker
         $r['chatID'] = $chat['id'];
         $r['chatType'] = $chat['type'];
         if (isset($chat['title'])) {
-            $r['chatTitle'] = $chat['title'];
+            $r['chatTitle'] = htmlspecialchars($chat['title']);
         }
         if (isset($chat['username'])) {
             $r['chatUsername'] = $chat['username'];
@@ -405,9 +405,9 @@ trait VariablesMaker
     {
         $r['userID'] = $user['id'];
         $r['isBot'] = $user['is_bot'];
-        $r['firstName'] = $user['first_name'];
+        $r['firstName'] = htmlspecialchars($user['first_name']);
         if (isset($user['last_name'])) {
-            $r['lastName'] = $user['last_name'];
+            $r['lastName'] = htmlspecialchars($user['last_name']);
         }
         if (isset($user['username'])) {
             $r['username'] = $user['username'];
@@ -581,9 +581,9 @@ trait VariablesMaker
     public function parseContact($contact)
     {
         $r['phoneNumber'] = $contact['phone_number'];
-        $r['firstName'] = $contact['first_name'];
+        $r['firstName'] = htmlspecialchars($contact['first_name']);
         if (isset($contact['last_name'])) {
-            $r['lastName'] = $contact['last_name'];
+            $r['lastName'] = htmlspecialchars($contact['last_name']);
         }
         if (isset($contact['user_id'])) {
             $r['userID'] = $contact['user_id'];
