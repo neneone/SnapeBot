@@ -229,8 +229,8 @@ trait VariablesMaker
         if (isset($message['poll'])) {
             $r['poll'] = $this->parsePoll($message['poll']);
         }
-        if (isset($message['new_chat_member'])) {
-            foreach ($message['new_chat_member'] as $member) {
+        if (isset($message['new_chat_members'])) {
+            foreach ($message['new_chat_members'] as $member) {
                 $r['newChatMembers'][] = $this->parseUser($member);
             }
         }
