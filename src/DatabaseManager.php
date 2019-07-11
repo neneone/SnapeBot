@@ -34,7 +34,7 @@ trait DatabaseManager
 
     public function checkUserInDatabase($userID, $name, $username = '')
     {
-        $q = $this->db->prepare('SELECT * FROM '.$this->settings['database']['tableName'].' WHERE userID = :userID');
+        $q = $this->db->prepare('SELECT * FROM '.$this->tName.' WHERE userID = :userID');
         $q->bindParam(':userID', $userID);
         $q->execute();
         if ($q->rowCount() == 0) {
@@ -51,7 +51,7 @@ trait DatabaseManager
 
     public function addUserToDatabase($userID, $name, $username)
     {
-        $q = $this->db->prepare('INSERT INTO '.$this->settings['database']['tableName'].' (userID, name, username, page, lastUpdate) VALUES (:userID, :name, :username, "", "'.date('Y-m-d').'")');
+        $q = $this->db->prepare('INSERT INTO '.$this->tName.' (userID, name, username, page, lastUpdate) VALUES (:userID, :name, :username, "", "'.date('Y-m-d').'")');
         $q->bindParam(':userID', $userID);
         $q->bindParam(':name', $name);
         $q->bindParam(':username', $username);
@@ -60,10 +60,20 @@ trait DatabaseManager
 
     public function updateUserInDatabase($userID, $name, $username)
     {
-        $q = $this->db->prepare('UPDATE '.$this->settings['database']['tableName'].' SET name = :name, username = :username, lastUpdate = "'.date('Y-m-d').'" WHERE userID = :userID');
+        $q = $this->db->prepare('UPDATE '.$this->tName.' SET name = :name, username = :username, lastUpdate = "'.date('Y-m-d').'" WHERE userID = :userID');
         $q->bindParam(':name', $name);
         $q->bindParam(':username', $username);
         $q->bindParam(':userID', $userID);
         $q->execute();
+    }
+
+    public function setPage($page = '', $userID = false, $field = 'page') {
+      if($userID == false) {
+        if(isset($this->userID)) $userID = $this->userID; else throw new Exception('Missing userID while required in setPage');
+      }
+      $q = $this->db->prepare('UPDATE '.$this->tName.' SET ' . $field . ' = :page WHERE userID = :userID');
+      $q->bindParam(':page', $page);
+      $q->bindParam(':userID', $userID);
+      $q->execute();
     }
 }
