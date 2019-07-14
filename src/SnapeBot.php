@@ -73,7 +73,8 @@ class SnapeBot
     ],
     'database' => [
       'type' => 'array',
-      'required' => true,
+      'default' => false,
+      'required' => false,
       'structure' => [
         'host' => [
           'type' => 'string',
@@ -120,22 +121,20 @@ class SnapeBot
 
         $this->BotAPI = new BotAPI($this->botToken);
         $this->API = new API($this->botToken, $this);
-        $this->db = $this->connectToDatabase($this->settings['database']['host'], $this->settings['database']['dbName'], $this->settings['database']['username'], $this->settings['database']['password']);
-
-        file_put_contents('settings.json', json_encode($this->settings, JSON_PRETTY_PRINT));
-        if (true == $this->settings['firstRun']) {
+        if($this->settings['database']) $this->db = $this->connectToDatabase($this->settings['database']['host'], $this->settings['database']['dbName'], $this->settings['database']['username'], $this->settings['database']['password']);
+        if ($this->settings['firstRun'] == true) {
             $this->firstRun();
         }
         $this->update = $update;
         $this->makeVariables();
-        if (isset($this->userID) && $this->userID) {
+        if (isset($this->userID) && $this->userID && $this->settings['database']) {
             $this->u = $this->checkUserInDatabase($this->userID, $this->fullName, (isset($this->username) ? $this->username : ''));
         }
     }
 
     public static function buildSettings($settings, $settingsScheme = false)
     {
-        if (false == $settingsScheme) {
+        if ($settingsScheme == false) {
             $settingsScheme = self::$settingsScheme;
         }
         foreach ($settingsScheme as $setting => $structure) {
@@ -244,15 +243,17 @@ class SnapeBot
 
     private function firstRun()
     {
-        $createTable = $this->db->query('CREATE TABLE IF NOT EXISTS '.$this->tName.' (
-          ID int NOT NULL AUTO_INCREMENT,
-          userID bigint(255),
-          name varchar(255),
-          username varchar(32),
-          page varchar(255),
-          lastUpdate date,
-          PRIMARY KEY (ID)
-        )');
+        if($this->settings['database']) {
+          $createTable = $this->db->query('CREATE TABLE IF NOT EXISTS '.$this->tName.' (
+            ID int NOT NULL AUTO_INCREMENT,
+            userID bigint(255),
+            name varchar(255),
+            username varchar(32),
+            page varchar(255),
+            lastUpdate date,
+            PRIMARY KEY (ID)
+          )');
+        }
     }
 
     public function specialEncrypt($string)
