@@ -1,6 +1,6 @@
 {
   "name": "neneone/snapebot",
-  "description": "PHP Framework per creare Bot Telegram.",
+  "description": "PHP class-based framework to create Telegram Bots using webhook.",
   "type": "project",
   "license": "AGPL-3.0-only",
   "keywords": [
@@ -17,7 +17,7 @@
     }
   ],
   "require": {
-    "php": ">=7.2",
+    "php": ">=7.1",
     "ext-curl": "*",
     "ext-mbstring": "*"
   },
