@@ -44,7 +44,7 @@ class API
         return json_decode($result, true);
     }
 
-    public function sendMessage($chatID, $text, $rm = false, $keyboardType = 'inline', $disableNotification = false, $pm = 'HTML')
+    public function sendMessage($chatID, $text, $rm = false, $keyboardType = 'inline', $disableNotification = false, $pm = 'HTML', $disPreview = false)
     {
         switch ($keyboardType) {
       case 'inline':
@@ -73,6 +73,7 @@ class API
       'text' => $text,
       'disable_notification' => $disableNotification,
       'parse_mode' => $pm,
+      'disable_web_page_preview' => $disPreview
     ];
         if ($rm) {
             $args['reply_markup'] = json_encode($keyboard);
