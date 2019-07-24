@@ -95,7 +95,7 @@ class API
         return $this->BotAPI(__FUNCTION__, $args);
     }
 
-    public function keyboard($alert = '', $text = false, $menu = false, $click = false)
+    public function keyboard($alert = '', $text = false, $menu = false, $click = false, $dis = false)
     {
         if (isset($this->SnapeBot->cbMsg['msgID']) && '' != $text) {
             $args = [
@@ -103,6 +103,7 @@ class API
         'message_id' => $this->SnapeBot->cbMsg['msgID'],
         'text' => $text,
         'parse_mode' => 'HTML',
+        'disable_web_page_preview' => $dis
       ];
             if ($menu) {
                 $rm = [
