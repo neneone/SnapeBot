@@ -26,10 +26,23 @@ class API
     {
         $this->botToken = $botToken;
         $this->SnapeBot = $SnapeBot;
+        $this->jsonPayload = true;
     }
 
     public function BotAPI($method, $args = [])
     {
+        if($this->jsonPayload == true) {
+            ob_start();
+          header("Content-Type: application/json");
+          header("Connection: close");
+          $args['method'] = $method;
+          echo json_encode($args);
+          ob_end_flush();
+          ob_flush();
+          flush();
+            $this->jsonPayload = false;
+            return true;
+        }
         $ch = curl_init();
         $ch_options = [
     CURLOPT_URL => 'https://api.telegram.org/bot'.$this->botToken.'/'.$method,
@@ -84,12 +97,6 @@ class API
 
     public function keyboard($alert = '', $text = false, $menu = false, $click = false)
     {
-        $args = [
-      'callback_query_id' => $this->SnapeBot->cbID,
-      'text' => $alert,
-      'show_alert' => $click,
-    ];
-        $this->BotAPI('answerCallbackQuery', $args);
         if (isset($this->SnapeBot->cbMsg['msgID']) && '' != $text) {
             $args = [
         'chat_id' => $this->SnapeBot->chatID,
@@ -103,9 +110,13 @@ class API
         ];
                 $args['reply_markup'] = json_encode($rm);
             }
-
-            return $this->BotAPI('editMessageText', $args);
         }
+        $args = [
+      'callback_query_id' => $this->SnapeBot->cbID,
+      'text' => $alert,
+      'show_alert' => $click,
+    ];
+        $this->BotAPI('answerCallbackQuery', $args);
     }
 
     public function encryptKeyboard($keyboard)
