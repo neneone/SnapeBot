@@ -110,6 +110,7 @@ class API
         ];
                 $args['reply_markup'] = json_encode($rm);
             }
+            $this->BotAPI('editMessageText', $args);
         }
         $args = [
       'callback_query_id' => $this->SnapeBot->cbID,
