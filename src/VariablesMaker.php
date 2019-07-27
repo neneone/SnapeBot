@@ -48,6 +48,7 @@ trait VariablesMaker
             $this->isInlineQuery = true;
             $this->setMainInlineQueryData($this->update['inline_query']);
         } elseif (isset($this->update['chosen_inline_result'])) {
+            $this->isChosenInlineResult = true;
             $this->setMainChosenInlineResultData($this->update['chosen_inline_result']);
         } elseif (isset($this->update['callback_query'])) {
             $this->isCallbackQuery = true;
