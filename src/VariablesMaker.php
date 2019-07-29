@@ -168,7 +168,7 @@ trait VariablesMaker
             $r['forwardName'] = htmlspecialchars($message['forward_sender_name']);
         }
         if (isset($message['forward_date'])) {
-            $r['forwardDate'] = $message['forwardDate'];
+            $r['forwardDate'] = $message['forward_date'];
         }
         if (isset($message['reply_to_message'])) {
             $r['replyMsg'] = $this->parseMessage($message['reply_to_message']);
