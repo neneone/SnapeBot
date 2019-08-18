@@ -376,6 +376,8 @@ trait VariablesMaker
         }
         if (isset($chat['username'])) {
             $r['chatUsername'] = $chat['username'];
+        } else {
+            $r['chatUsername'] = '';
         }
         if (isset($chat['all_members_are_administrators'])) {
             $r['chatAllMembersAreAdministrators'] = $chat['all_members_are_administrators'];
@@ -412,6 +414,8 @@ trait VariablesMaker
         }
         if (isset($user['username'])) {
             $r['username'] = $user['username'];
+        } else {
+            $r['username'] = '';
         }
         if (isset($user['language_code'])) {
             $r['languageCode'] = $user['language_code'];
