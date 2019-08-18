@@ -57,7 +57,7 @@ class API
         return json_decode($result, true);
     }
 
-    public function sendMessage($chatID, $text, $rm = false, $keyboardType = 'inline', $disableNotification = false, $pm = 'HTML', $disPreview = false)
+    public function sendMessage($chatID, $text, $rm = false, $keyboardType = 'inline', $disableNotification = false, $pm = 'HTML', $disPreview = true)
     {
         switch ($keyboardType) {
       case 'inline':
@@ -95,7 +95,7 @@ class API
         return $this->BotAPI(__FUNCTION__, $args);
     }
 
-    public function keyboard($alert = '', $text = false, $menu = false, $click = false, $dis = false)
+    public function keyboard($alert = '', $text = false, $menu = false, $click = false, $dis = true)
     {
         if (isset($this->SnapeBot->cbMsg['msgID']) && '' != $text) {
             $args = [
