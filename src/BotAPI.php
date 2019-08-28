@@ -20,11 +20,31 @@
 
 namespace neneone\SnapeBot;
 
-class BotAPI implements BotAPIScheme
+class BotAPI
 {
     public function __construct($token)
     {
         $this->token = $token;
+    }
+
+    public function __call($name, $args)
+    {
+        $methodsList = json_decode('{"getUpdates":[{"name":"offset","required":false},{"name":"limit","required":false},{"name":"timeout","required":false},{"name":"allowed_updates","required":false}],"setWebhook":[{"name":"url","required":true},{"name":"certificate","required":false},{"name":"max_connections","required":false},{"name":"allowed_updates","required":false}],"deleteWebhook":[{"name":"url","required":false},{"name":"has_custom_certificate","required":false},{"name":"pending_update_count","required":false},{"name":"last_error_date","required":false},{"name":"last_error_message","required":false},{"name":"max_connections","required":false},{"name":"allowed_updates","required":false}],"getWebhookInfo":[{"name":"url","required":false},{"name":"has_custom_certificate","required":false},{"name":"pending_update_count","required":false},{"name":"last_error_date","required":false},{"name":"last_error_message","required":false},{"name":"max_connections","required":false},{"name":"allowed_updates","required":false}],"getMe":[{"name":"chat_id","required":true},{"name":"text","required":true},{"name":"parse_mode","required":false},{"name":"disable_web_page_preview","required":false},{"name":"disable_notification","required":false},{"name":"reply_to_message_id","required":false},{"name":"reply_markup","required":false}],"sendMessage":[{"name":"chat_id","required":true},{"name":"text","required":true},{"name":"parse_mode","required":false},{"name":"disable_web_page_preview","required":false},{"name":"disable_notification","required":false},{"name":"reply_to_message_id","required":false},{"name":"reply_markup","required":false}],"forwardMessage":[{"name":"chat_id","required":true},{"name":"from_chat_id","required":true},{"name":"disable_notification","required":false},{"name":"message_id","required":true}],"sendPhoto":[{"name":"chat_id","required":true},{"name":"photo","required":true},{"name":"caption","required":false},{"name":"parse_mode","required":false},{"name":"disable_notification","required":false},{"name":"reply_to_message_id","required":false},{"name":"reply_markup","required":false}],"sendAudio":[{"name":"chat_id","required":true},{"name":"audio","required":true},{"name":"caption","required":false},{"name":"parse_mode","required":false},{"name":"duration","required":false},{"name":"performer","required":false},{"name":"title","required":false},{"name":"thumb","required":false},{"name":"disable_notification","required":false},{"name":"reply_to_message_id","required":false},{"name":"reply_markup","required":false}],"sendDocument":[{"name":"chat_id","required":true},{"name":"document","required":true},{"name":"thumb","required":false},{"name":"caption","required":false},{"name":"parse_mode","required":false},{"name":"disable_notification","required":false},{"name":"reply_to_message_id","required":false},{"name":"reply_markup","required":false}],"sendVideo":[{"name":"chat_id","required":true},{"name":"video","required":true},{"name":"duration","required":false},{"name":"width","required":false},{"name":"height","required":false},{"name":"thumb","required":false},{"name":"caption","required":false},{"name":"parse_mode","required":false},{"name":"supports_streaming","required":false},{"name":"disable_notification","required":false},{"name":"reply_to_message_id","required":false},{"name":"reply_markup","required":false}],"sendAnimation":[{"name":"chat_id","required":true},{"name":"animation","required":true},{"name":"duration","required":false},{"name":"width","required":false},{"name":"height","required":false},{"name":"thumb","required":false},{"name":"caption","required":false},{"name":"parse_mode","required":false},{"name":"disable_notification","required":false},{"name":"reply_to_message_id","required":false},{"name":"reply_markup","required":false}],"sendVoice":[{"name":"chat_id","required":true},{"name":"voice","required":true},{"name":"caption","required":false},{"name":"parse_mode","required":false},{"name":"duration","required":false},{"name":"disable_notification","required":false},{"name":"reply_to_message_id","required":false},{"name":"reply_markup","required":false}],"sendVideoNote":[{"name":"chat_id","required":true},{"name":"video_note","required":true},{"name":"duration","required":false},{"name":"length","required":false},{"name":"thumb","required":false},{"name":"disable_notification","required":false},{"name":"reply_to_message_id","required":false},{"name":"reply_markup","required":false}],"sendMediaGroup":[{"name":"chat_id","required":true},{"name":"media","required":true},{"name":"disable_notification","required":false},{"name":"reply_to_message_id","required":false}],"sendLocation":[{"name":"chat_id","required":true},{"name":"latitude","required":true},{"name":"longitude","required":true},{"name":"live_period","required":false},{"name":"disable_notification","required":false},{"name":"reply_to_message_id","required":false},{"name":"reply_markup","required":false}],"editMessageLiveLocation":[{"name":"chat_id","required":false},{"name":"message_id","required":false},{"name":"inline_message_id","required":false},{"name":"latitude","required":true},{"name":"longitude","required":true},{"name":"reply_markup","required":false}],"stopMessageLiveLocation":[{"name":"chat_id","required":false},{"name":"message_id","required":false},{"name":"inline_message_id","required":false},{"name":"reply_markup","required":false}],"sendVenue":[{"name":"chat_id","required":true},{"name":"latitude","required":true},{"name":"longitude","required":true},{"name":"title","required":true},{"name":"address","required":true},{"name":"foursquare_id","required":false},{"name":"foursquare_type","required":false},{"name":"disable_notification","required":false},{"name":"reply_to_message_id","required":false},{"name":"reply_markup","required":false}],"sendContact":[{"name":"chat_id","required":true},{"name":"phone_number","required":true},{"name":"first_name","required":true},{"name":"last_name","required":false},{"name":"vcard","required":false},{"name":"disable_notification","required":false},{"name":"reply_to_message_id","required":false},{"name":"reply_markup","required":false}],"sendPoll":[{"name":"chat_id","required":true},{"name":"question","required":true},{"name":"options","required":true},{"name":"disable_notification","required":false},{"name":"reply_to_message_id","required":false},{"name":"reply_markup","required":false}],"sendChatAction":[{"name":"chat_id","required":true},{"name":"action","required":true}],"getUserProfilePhotos":[{"name":"user_id","required":true},{"name":"offset","required":false},{"name":"limit","required":false}],"getFile":[{"name":"file_id","required":true}],"kickChatMember":[{"name":"chat_id","required":true},{"name":"user_id","required":true},{"name":"until_date","required":false}],"unbanChatMember":[{"name":"chat_id","required":true},{"name":"user_id","required":true}],"restrictChatMember":[{"name":"chat_id","required":true},{"name":"user_id","required":true},{"name":"permissions","required":true},{"name":"until_date","required":false}],"promoteChatMember":[{"name":"chat_id","required":true},{"name":"user_id","required":true},{"name":"can_change_info","required":false},{"name":"can_post_messages","required":false},{"name":"can_edit_messages","required":false},{"name":"can_delete_messages","required":false},{"name":"can_invite_users","required":false},{"name":"can_restrict_members","required":false},{"name":"can_pin_messages","required":false},{"name":"can_promote_members","required":false}],"setChatPermissions":[{"name":"chat_id","required":true},{"name":"permissions","required":true}],"exportChatInviteLink":[{"name":"chat_id","required":true}],"setChatPhoto":[{"name":"chat_id","required":true},{"name":"photo","required":true}],"deleteChatPhoto":[{"name":"chat_id","required":true}],"setChatTitle":[{"name":"chat_id","required":true},{"name":"title","required":true}],"setChatDescription":[{"name":"chat_id","required":true},{"name":"description","required":false}],"pinChatMessage":[{"name":"chat_id","required":true},{"name":"message_id","required":true},{"name":"disable_notification","required":false}],"unpinChatMessage":[{"name":"chat_id","required":true}],"leaveChat":[{"name":"chat_id","required":true}],"getChat":[{"name":"chat_id","required":true}],"getChatAdministrators":[{"name":"chat_id","required":true}],"getChatMembersCount":[{"name":"chat_id","required":true}],"getChatMember":[{"name":"chat_id","required":true},{"name":"user_id","required":true}],"setChatStickerSet":[{"name":"chat_id","required":true},{"name":"sticker_set_name","required":true}],"deleteChatStickerSet":[{"name":"chat_id","required":true}],"answerCallbackQuery":[{"name":"callback_query_id","required":true},{"name":"text","required":false},{"name":"show_alert","required":false},{"name":"url","required":false},{"name":"cache_time","required":false}],"editMessageText":[{"name":"chat_id","required":false},{"name":"message_id","required":false},{"name":"inline_message_id","required":false},{"name":"text","required":true},{"name":"parse_mode","required":false},{"name":"disable_web_page_preview","required":false},{"name":"reply_markup","required":false}],"editMessageCaption":[{"name":"chat_id","required":false},{"name":"message_id","required":false},{"name":"inline_message_id","required":false},{"name":"caption","required":false},{"name":"parse_mode","required":false},{"name":"reply_markup","required":false}],"editMessageMedia":[{"name":"chat_id","required":false},{"name":"message_id","required":false},{"name":"inline_message_id","required":false},{"name":"media","required":true},{"name":"reply_markup","required":false}],"editMessageReplyMarkup":[{"name":"chat_id","required":false},{"name":"message_id","required":false},{"name":"inline_message_id","required":false},{"name":"reply_markup","required":false}],"stopPoll":[{"name":"chat_id","required":true},{"name":"message_id","required":true},{"name":"reply_markup","required":false}],"deleteMessage":[{"name":"chat_id","required":true},{"name":"message_id","required":true}],"sendSticker":[{"name":"chat_id","required":true},{"name":"sticker","required":true},{"name":"disable_notification","required":false},{"name":"reply_to_message_id","required":false},{"name":"reply_markup","required":false}],"getStickerSet":[{"name":"name","required":true}],"uploadStickerFile":[{"name":"user_id","required":true},{"name":"png_sticker","required":true}],"createNewStickerSet":[{"name":"user_id","required":true},{"name":"name","required":true},{"name":"title","required":true},{"name":"png_sticker","required":true},{"name":"emojis","required":true},{"name":"contains_masks","required":false},{"name":"mask_position","required":false}],"addStickerToSet":[{"name":"user_id","required":true},{"name":"name","required":true},{"name":"png_sticker","required":true},{"name":"emojis","required":true},{"name":"mask_position","required":false}],"setStickerPositionInSet":[{"name":"sticker","required":true},{"name":"position","required":true}],"deleteStickerFromSet":[{"name":"sticker","required":true}],"answerInlineQuery":[{"name":"inline_query_id","required":true},{"name":"results","required":true},{"name":"cache_time","required":false},{"name":"is_personal","required":false},{"name":"next_offset","required":false},{"name":"switch_pm_text","required":false},{"name":"switch_pm_parameter","required":false}],"sendInvoice":[{"name":"chat_id","required":true},{"name":"title","required":true},{"name":"description","required":true},{"name":"payload","required":true},{"name":"provider_token","required":true},{"name":"start_parameter","required":true},{"name":"currency","required":true},{"name":"prices","required":true},{"name":"provider_data","required":false},{"name":"photo_url","required":false},{"name":"photo_size","required":false},{"name":"photo_width","required":false},{"name":"photo_height","required":false},{"name":"need_name","required":false},{"name":"need_phone_number","required":false},{"name":"need_email","required":false},{"name":"need_shipping_address","required":false},{"name":"send_phone_number_to_provider","required":false},{"name":"send_email_to_provider","required":false},{"name":"is_flexible","required":false},{"name":"disable_notification","required":false},{"name":"reply_to_message_id","required":false},{"name":"reply_markup","required":false}],"answerShippingQuery":[{"name":"shipping_query_id","required":true},{"name":"ok","required":true},{"name":"shipping_options","required":false},{"name":"error_message","required":false}],"answerPreCheckoutQuery":[{"name":"pre_checkout_query_id","required":true},{"name":"ok","required":true},{"name":"error_message","required":false}],"setPassportDataErrors":[{"name":"user_id","required":true},{"name":"errors","required":true}],"sendGame":[{"name":"chat_id","required":true},{"name":"game_short_name","required":true},{"name":"disable_notification","required":false},{"name":"reply_to_message_id","required":false},{"name":"reply_markup","required":false}],"setGameScore":[{"name":"user_id","required":true},{"name":"score","required":true},{"name":"force","required":false},{"name":"disable_edit_message","required":false},{"name":"chat_id","required":false},{"name":"message_id","required":false},{"name":"inline_message_id","required":false}],"getGameHighScores":[{"name":"user_id","required":true},{"name":"chat_id","required":false},{"name":"message_id","required":false},{"name":"inline_message_id","required":false}]}', true);
+        if (array_key_exists($name, $methodsList)) {
+            if (is_array($args[0])) {
+                return $this->BotAPI($name, $args[0]);
+            }
+            $argsAPI = [];
+            $i = 0;
+            foreach ($methodsList[$name] as $field) {
+                $argsAPI[$field['name']] = $args[$i];
+                $i++;
+            }
+            $this->BotAPI($name, $argsAPI);
+            return $argsAPI;
+        } else {
+            throw new \neneone\neneone\Exception('Method not found');
+        }
     }
 
     public function BotAPI($method, $args = [])
@@ -41,325 +61,5 @@ class BotAPI implements BotAPIScheme
         curl_close($ch);
 
         return json_decode($result, true);
-    }
-
-    public function getUpdates($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function setWebhook($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function deleteWebhook()
-    {
-        return $this->BotAPI(__FUNCTION__);
-    }
-
-    public function getWebhookInfo()
-    {
-        return $this->BotAPI(__FUNCTION__);
-    }
-
-    public function getMe()
-    {
-        return $this->BotAPI(__FUNCTION__);
-    }
-
-    public function sendMessage($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function forwardMessage($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function sendPhoto($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function sendAudio($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function sendDocument($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function sendVideo($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function sendAnimation($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function sendVoice($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function sendVideoNote($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function sendMediaGroup($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function sendLocation($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function editMessageLiveLocation($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function stopMessageLiveLocation($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function sendVenue($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function sendContact($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function sendPoll($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function sendChatAction($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function getUserProfilePhotos($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function getFile($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function kickChatMember($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function unbanChatMember($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function restrictChatMember($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function promoteChatMember($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function exportChatInviteLink($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function setChatPhoto($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function deleteChatPhoto($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function setChatTitle($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function setChatDescription($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function pinChatMessage($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function unpinChatMessage($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function leaveChat($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function getChat($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function getChatAdministrators($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function getChatMembersCount($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function getChatMember($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function setChatStickerSet($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function deleteChatStickerSet($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function answerCallbackQuery($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function editMessageText($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function editMessageCaption($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function editMessageMedia($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function editMessageReplyMarkup($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function stopPoll($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function deleteMessage($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function sendSticker($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function getStickerSet($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function uploadStickerFile($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function createNewStickerSet($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function addStickerToSet($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function setStickerPositionInSet($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function deleteStickerFromSet($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function answerInlineQuery($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function sendInvoice($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function answerShippingQuery($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function answerPreCheckoutQuery($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function setPassportDataErrors($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function sendGame($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function setGameScore($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
-    }
-
-    public function getGameHighScores($args)
-    {
-        return $this->BotAPI(__FUNCTION__, $args);
     }
 }
