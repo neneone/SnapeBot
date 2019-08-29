@@ -40,8 +40,7 @@ class BotAPI
                 $argsAPI[$field['name']] = $args[$i];
                 $i++;
             }
-            $this->BotAPI($name, $argsAPI);
-            return $argsAPI;
+            return $this->BotAPI($name, $argsAPI);
         } else {
             throw new \neneone\neneone\Exception('Method not found');
         }
