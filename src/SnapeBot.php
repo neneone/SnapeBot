@@ -108,6 +108,8 @@ class SnapeBot
         $this->settings = self::buildSettings($settings);
         $this->botToken = $botToken;
         $this->tName = $this->settings['database']['tableName'];
+        
+        if(PHP_SAPI == 'cli') die('Run this on webserver.');
 
         if ($this->settings['getBotInformations'] || !isset($this->settings['botUsername'])) {
             $getMe = (new \neneone\snapeBot\BotAPI($botToken))->getMe();
