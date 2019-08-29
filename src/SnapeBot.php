@@ -234,9 +234,6 @@ class SnapeBot
         }
             }
         }
-        if (isset($missingSetting) && true == $missingSetting) {
-            die;
-        }
 
         return $builtSettings;
     }
