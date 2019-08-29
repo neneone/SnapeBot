@@ -302,7 +302,7 @@ trait VariablesMaker
 
     public function parseChosenInlineResult($chosenResult)
     {
-        $r['resultID'] = $chosen['result_id'];
+        $r['resultID'] = $chosenResult['result_id'];
         $r['from'] = $this->parseUser($chosenResult['from']);
         $r['query'] = $chosenResult['query'];
         if (isset($chosenResult['location'])) {
