@@ -27,7 +27,7 @@ trait DatabaseManager
         try {
             $db = new \PDO('mysql:host='.$host.';dbname='.$databaseName, $username, $password);
         } catch (\PDOException $e) {
-            die($e->getMessage());
+            throw new \neneone\SnapeBot\Exception('PDOException during connection to database', 0, $e);
         }
         return $db;
     }
