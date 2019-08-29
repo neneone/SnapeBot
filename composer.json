@@ -19,7 +19,9 @@
   "require": {
     "php": ">=7.1",
     "ext-curl": "*",
-    "ext-mbstring": "*"
+    "ext-mbstring": "*",
+    "ext-pdo": "*",
+    "ext-json": "*"
   },
   "minimum-stability": "dev",
   "autoload": {
