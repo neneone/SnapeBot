@@ -240,7 +240,7 @@ class SnapeBot
     private function firstRun()
     {
         if($this->settings['database']) {
-          $createTable = $this->db->query('CREATE TABLE IF NOT EXISTS '.$this->tName.' (
+          $this->db->query('CREATE TABLE IF NOT EXISTS '.$this->tName.' (
             ID int NOT NULL AUTO_INCREMENT,
             userID bigint(255),
             name varchar(255),
