@@ -140,7 +140,6 @@ class SnapeBot
         foreach ($settingsScheme as $setting => $structure) {
             if (!isset($settings[$setting]) && true == $structure['required']) {
                 throw new Exception('Missing required setting: '.$setting.'.');
-                $missingSetting = true;
             } elseif (!isset($settings[$setting])) {
                 if (isset($structure['default'])) {
                     $builtSettings[$setting] = $structure['default'];
