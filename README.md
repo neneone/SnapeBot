@@ -2,6 +2,7 @@
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/615dd3b4625e4cfca450ff35e9f1f621)](https://app.codacy.com/app/neneone/SnapeBot?utm_source=github.com&utm_medium=referral&utm_content=neneone/SnapeBot&utm_campaign=Badge_Grade_Dashboard)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![GitHub repo size](https://img.shields.io/github/repo-size/neneone/SnapeBot?label=Repository%20size)](https://github.com/neneone/SnapeBot)
 
 Created by <a href="https://neneone.xyz/" target="_blank">Enea Dolcini</a>
 
