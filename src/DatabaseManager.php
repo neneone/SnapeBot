@@ -40,11 +40,11 @@ trait DatabaseManager
         if ($q->rowCount() == 0) {
             $this->addUserToDatabase($userID, $name, $username);
             $u = $this->checkUserInDatabase($userID, $name, $username);
-        } else {
-            $u = $q->fetchAll(\PDO::FETCH_ASSOC)[0];
-            if ($u['lastUpdate'] < date('Y-m-d')) {
-                $this->updateUserInDatabase($userID, $name, $username);
-            }
+            return $u;
+        }
+        $u = $q->fetchAll(\PDO::FETCH_ASSOC)[0];
+        if ($u['lastUpdate'] < date('Y-m-d')) {
+            $this->updateUserInDatabase($userID, $name, $username);
         }
         return $u;
     }
