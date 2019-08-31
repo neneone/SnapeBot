@@ -9,7 +9,6 @@
 [![Packagist](https://img.shields.io/packagist/dd/neneone/snapebot?label=Downloads)](https://github.com/neneone/SnapeBot)
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/w/neneone/SnapeBot)](https://github.com/neneone/SnapeBot)
 [![GitHub commits since latest release](https://img.shields.io/github/commits-since/neneone/SnapeBot/latest)](https://github.com/neneone/SnapeBot)
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fneneone%2FSnapeBot.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fneneone%2FSnapeBot?ref=badge_shield)
 
 Created by <a href="https://neneone.xyz/" target="_blank">Enea Dolcini</a>
 
@@ -40,7 +39,3 @@ You can find some examples in the [Examples](https://github.com/neneone/SnapeBot
 * [simpleBot](https://github.com/neneone/SnapeBot/tree/master/Examples/simpleBot): a basic usage of SnapeBot to create your first bot, with an overview of normal keyboards and inline keyboards.
 
 _Please note that the above are Examples, so if you'd like to try them you should **copy** them, not use them inside the `src` directory._
-
-
-## License
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fneneone%2FSnapeBot.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fneneone%2FSnapeBot?ref=badge_large)
