@@ -118,6 +118,11 @@ trait VariablesMaker
                 $this->{$k} = $v;
             }
         }
+        if (isset($this->cbMsg)) {
+            foreach($this->cbMsg as $k => $v) {
+                $this->{$k} = $v;
+            }
+        }
     }
 
     private function setMainShippingQueryData($shippingQuery)
