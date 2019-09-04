@@ -107,6 +107,7 @@ class SnapeBot
     {
         $this->settings = self::buildSettings($settings);
         $this->botToken = $botToken;
+        $this->botUsername = $this->settings['botUsername'];
         $this->tName = $this->settings['database']['tableName'];
 
         if ($this->settings['getBotInformations'] || !isset($this->settings['botUsername'])) {
