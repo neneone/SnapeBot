@@ -57,7 +57,7 @@ class API
         return json_decode($result, true);
     }
 
-    public function sendMessage($chatID, $text, $rm = false, $keyboardType = 'inline', $disableNotification = false, $pm = 'HTML', $disPreview = true)
+    public function sendMessage($chatID, $text, $rm = false, $keyboardType = 'inline', $disableNotification = false, $pm = 'HTML', $disPreview = true, $replyToMessage = false)
     {
         switch ($keyboardType) {
       case 'inline':
@@ -90,6 +90,9 @@ class API
     ];
         if ($rm) {
             $args['reply_markup'] = json_encode($keyboard);
+        }
+        if($replyToMessage) {
+            $args['reply_to_message'] = $replyToMessage;
         }
 
         return $this->BotAPI(__FUNCTION__, $args);
