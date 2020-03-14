@@ -6,7 +6,6 @@
 [![GitHub top language](https://img.shields.io/github/languages/top/neneone/SnapeBot?label=PHP)](https://github.com/neneone/SnapeBot)
 [![PHP from Packagist](https://img.shields.io/packagist/php-v/neneone/SnapeBot?label=PHP)](https://github.com/neneone/SnapeBot)
 [![Packagist Version](https://img.shields.io/packagist/v/neneone/SnapeBot?label=Packagist)](https://github.com/neneone/SnapeBot)
-[![Packagist](https://img.shields.io/packagist/dd/neneone/snapebot?label=Downloads)](https://github.com/neneone/SnapeBot)
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/w/neneone/SnapeBot)](https://github.com/neneone/SnapeBot)
 [![GitHub commits since latest release](https://img.shields.io/github/commits-since/neneone/SnapeBot/latest)](https://github.com/neneone/SnapeBot)
 
