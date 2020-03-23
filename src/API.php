@@ -92,7 +92,7 @@ class API
             $args['reply_markup'] = json_encode($keyboard);
         }
         if($replyToMessage) {
-            $args['reply_to_message'] = $replyToMessage;
+            $args['reply_to_message_id'] = $replyToMessage;
         }
 
         return $this->BotAPI(__FUNCTION__, $args);
