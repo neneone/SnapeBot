@@ -36,6 +36,11 @@ class SnapeBot
       'default' => false,
       'required' => false,
     ],
+    'endPoint' => [
+      'type' => 'string',
+      'default' => 'https://api.telegram.org/',
+      'required' => false,
+    ],
     'firstRun' => [
       'type' => 'boolean',
       'default' => true,
@@ -122,7 +127,9 @@ class SnapeBot
 
         $this->BotAPI = new BotAPI($this->botToken);
         $this->API = new API($this->botToken, $this);
-        if($this->settings['database']) $this->db = $this->connectToDatabase($this->settings['database']['host'], $this->settings['database']['dbName'], $this->settings['database']['username'], $this->settings['database']['password']);
+        if ($this->settings['database']) {
+            $this->db = $this->connectToDatabase($this->settings['database']['host'], $this->settings['database']['dbName'], $this->settings['database']['username'], $this->settings['database']['password']);
+        }
         if ($this->settings['firstRun'] == true) {
             $this->firstRun();
         }
@@ -240,8 +247,8 @@ class SnapeBot
 
     private function firstRun()
     {
-        if($this->settings['database']) {
-          $this->db->query('CREATE TABLE IF NOT EXISTS '.$this->tName.' (
+        if ($this->settings['database']) {
+            $this->db->query('CREATE TABLE IF NOT EXISTS '.$this->tName.' (
             ID int NOT NULL AUTO_INCREMENT,
             userID bigint(255),
             name varchar(255),

@@ -31,21 +31,21 @@ class API
 
     public function BotAPI($method, $args = [])
     {
-        if($this->jsonPayload == true) {
+        if ($this->jsonPayload == true) {
             ob_start();
-          header("Content-Type: application/json");
-          header("Connection: close");
-          $args['method'] = $method;
-          echo json_encode($args);
-          ob_end_flush();
-          ob_flush();
-          flush();
+            header("Content-Type: application/json");
+            header("Connection: close");
+            $args['method'] = $method;
+            echo json_encode($args);
+            ob_end_flush();
+            ob_flush();
+            flush();
             $this->jsonPayload = false;
             return true;
         }
         $ch = curl_init();
         $ch_options = [
-    CURLOPT_URL => 'https://api.telegram.org/bot'.$this->botToken.'/'.$method,
+    CURLOPT_URL => $this->SnapeBot->settings['endPoint'].'bot'.$this->botToken.'/'.$method,
     CURLOPT_POST => true,
     CURLOPT_POSTFIELDS => http_build_query($args),
     CURLOPT_RETURNTRANSFER => true,
@@ -91,7 +91,7 @@ class API
         if ($rm) {
             $args['reply_markup'] = json_encode($keyboard);
         }
-        if($replyToMessage) {
+        if ($replyToMessage) {
             $args['reply_to_message_id'] = $replyToMessage;
         }
 
