@@ -50,7 +50,7 @@ class BotAPI
     {
         $ch = curl_init();
         $ch_options = [
-      CURLOPT_URL => 'https://api.telegram.org/bot'.$this->token.'/'.$method,
+      CURLOPT_URL => $this->SnapeBot->settings['endPoint'].'bot'.$this->token.'/'.$method,
       CURLOPT_POST => true,
       CURLOPT_POSTFIELDS => http_build_query($args),
       CURLOPT_RETURNTRANSFER => true,
