@@ -9,7 +9,7 @@
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/w/neneone/SnapeBot)](https://github.com/neneone/SnapeBot)
 [![GitHub commits since latest release](https://img.shields.io/github/commits-since/neneone/SnapeBot/latest)](https://github.com/neneone/SnapeBot)
 
-Created by <a href="https://neneone.xyz/" target="_blank">Enea Dolcini</a>
+Created by <a href="https://neneone.dev/" target="_blank">Enea Dolcini</a>
 
 Join the <a href="https://t.me/NeneoneDev">official channel</a> for updates and the <a href="https://t.me/PHPBotSupport">support group</a>.
 
